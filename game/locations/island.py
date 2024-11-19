@@ -34,7 +34,8 @@ class ShorePirates (event.Event):
     petemade = False
     '''
     A combat encounter with a crew of marooned pirate zombies.
-    When the event is drawn, creates a combat encounter with 2 to 6 marooned pirates, kicks control over to the combat code to resolve the fight, then adds itself and a simple success message to the result
+    When the event is drawn, creates a combat encounter with 2 to 6 marooned pirates, kicks control over to the combat code to resolve the fight, 
+    then adds itself and a simple success message to the result
     '''
 
     def __init__ (self):

@@ -94,3 +94,6 @@ class SubLocation(Context):
             for e in results["newevents"]:
                 self.events.append(e)
             display.announce ("----------------------",pause=False)
+
+    def enter (self):
+        pass
