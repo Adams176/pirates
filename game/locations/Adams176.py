@@ -168,13 +168,22 @@ class Subarea (location.SubLocation):
             altXO = 'X'
         display.announce(f"Control the '{playerXO}' using 'w a s d' to line up with the '{altXO}' side by side.")
         
-        while not ((player.y == alt.y) and (abs(player.x - alt.x == 1))):
+        while not ((player.y == alt.y) and (abs(player.x - alt.x) == 1)):
             user_input = input()
             if user_input in input_meanings:
                 move = input_meanings[user_input]
                 set_board[player.y][player.x] = " "       #player.x & player.y? for both X and O 
                 player = player + move
-                set_board[player.y][player.x] = playerXO
+                player.x = player.x%4 #wrap to the range 0 - 3
+                player.y = player.y%4 #wrap to the range 0 - 3
+                if set_board[player.y][player.x] != " ":
+                    player = player - move
+                    player.x = player.x%4
+                    player.y = player.y%4
+                    set_board[player.y][player.x] = playerXO
+                    display.announce("You cannot go in that direction.")
+                else:
+                    set_board[player.y][player.x] = playerXO
                 line = ["─"]*len(set_board)
                 print("┌"+"┬".join(line)+"┐")
                 line = "├"+"┼".join(line)+"┤"
@@ -183,7 +192,7 @@ class Subarea (location.SubLocation):
                     print(line)
             else:
                 display.announce("Use 'w a s d' to move.")
-
+         
         #if (X_Coord.y == O_Coord.y) and (abs(X_Coord.x - O_Coord.x == 1)):
 #Reward with Treasure or Stat upgrade
 
