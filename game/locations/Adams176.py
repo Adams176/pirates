@@ -54,6 +54,9 @@ class coordinate:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+    def __add__(self, other):
+        return coordinate(self.x + other.x, self.y + other.y)
+
 
 
 class Subarea (location.SubLocation):
@@ -157,19 +160,32 @@ class Subarea (location.SubLocation):
             playerXO = 'X'
             player = X_Coord
             alt = O_Coord
+            altXO = 'O'
         else:
             playerXO = 'O'
             player = O_Coord
             alt = X_Coord
-        display.announce(f"Control the '{playerXO}' using 'w a s d' to line up with the '{alt}' side by side.")
-        #Reward with Treasure or Stat upgrade
-        user_input = input()
-        if user_input in input_meanings:
-            move = input_meanings[user_input]
-            X_Coord = " "
-            X_Coord - move = playerXO 
-        else:
-            display.announce("Use 'w a s d' to move.")
+            altXO = 'X'
+        display.announce(f"Control the '{playerXO}' using 'w a s d' to line up with the '{altXO}' side by side.")
+        
+        while not ((player.y == alt.y) and (abs(player.x - alt.x == 1))):
+            user_input = input()
+            if user_input in input_meanings:
+                move = input_meanings[user_input]
+                set_board[player.y][player.x] = " "       #player.x & player.y? for both X and O 
+                player = player + move
+                set_board[player.y][player.x] = playerXO
+                line = ["─"]*len(set_board)
+                print("┌"+"┬".join(line)+"┐")
+                line = "├"+"┼".join(line)+"┤"
+                for row in set_board:
+                    print("│"+"│".join(row)+"│")
+                    print(line)
+            else:
+                display.announce("Use 'w a s d' to move.")
+
+        #if (X_Coord.y == O_Coord.y) and (abs(X_Coord.x - O_Coord.x == 1)):
+#Reward with Treasure or Stat upgrade
 
 
 #############################################
